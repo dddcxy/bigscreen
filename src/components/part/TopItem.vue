@@ -21,13 +21,13 @@
     data() {
       return {
         imgs:[
-          {img:require('../assets/03社保缴费分析/01_70.png')},
-          {img:require('../assets/03社保缴费分析/01_38.png')},
-          {img:require('../assets/03社保缴费分析/01_7.png')},
-          {img:require('../assets/03社保缴费分析/01_75.png')},
-          {img:require('../assets/03社保缴费分析/01_44.png')},
-          {img:require('../assets/03社保缴费分析/01_62.png')},
-          {img:require('../assets/03社保缴费分析/01.png')}
+          {img:require('../../assets/03社保缴费分析/01_70.png')},
+          {img:require('../../assets/03社保缴费分析/01_38.png')},
+          {img:require('../../assets/03社保缴费分析/01_7.png')},
+          {img:require('../../assets/03社保缴费分析/01_75.png')},
+          {img:require('../../assets/03社保缴费分析/01_44.png')},
+          {img:require('../../assets/03社保缴费分析/01_62.png')},
+          {img:require('../../assets/03社保缴费分析/01.png')}
         ],
         dataMsg:[
           {

@@ -20,35 +20,52 @@
           <div class="center_2">
             <title-slot :titleMsg="'各险种缴费明细'">
               <div slot="definedSlot" class="slot">
+                <div class="tab">
+                  <div class="tab_item">城职养老</div>
+                  <div class="tab_item">城居养老</div>
+                  <div class="tab_item">机关养老</div>
+                  <div class="tab_item">失业保险</div>
+                  <div class="tab_item">工商保险</div>
+                </div>
               </div>
             </title-slot>
-            <!-- <rank-item></rank-item> -->
+            <galaxy-show></galaxy-show>
           </div>
           <div class="center_1">
             <title-slot :titleMsg="'各险种补缴/退缴情况'">
               <div slot="definedSlot" class="slot">
               </div>
             </title-slot>
+            <radar-map></radar-map>
           </div>
         </div>
         <div class="bottom_item">
           <div class="bottom_1">
             <title-slot :titleMsg="'缴费趋势分析'">
               <div slot="definedSlot" class="slot">
+                <select class="slot_select">
+                  <option value="全部" selected = "selected">全部</option>
+                </select>
               </div>
             </title-slot>
+            <one-bar-line class="echarts_bg"></one-bar-line>
           </div>
           <div class="bottom_1">
             <title-slot :titleMsg="'征缴趋势分析'">
               <div slot="definedSlot" class="slot">
               </div>
             </title-slot>
+            <three-line class="echarts_bg"></three-line>
           </div>
           <div class="bottom_1">
             <title-slot :titleMsg="'补缴/退缴趋势分析'">
               <div slot="definedSlot" class="slot">
+                <select class="slot_select">
+                  <option value="全部" selected = "selected">全部</option>
+                </select>
               </div>
             </title-slot>
+            <two-bar-line class="echarts_bg"></two-bar-line>
           </div>
         </div>
       </div>
@@ -57,16 +74,19 @@
 </template>
 
 <script>
-  import ScreenAdapter from './ScreenAdapter.vue'
-  import TopItem from './TopItem.vue'
-  import TitleSlot from './TitleSlot.vue'
-  import PieChart from './PieChart.vue'
-
-  // import RankItem from './RankItem.vue'
+  import ScreenAdapter from './part/ScreenAdapter.vue'
+  import TopItem from './part/TopItem.vue'
+  import TitleSlot from './part/TitleSlot.vue'
+  import PieChart from './part/PieChart.vue'
+  import GalaxyShow from './part/GalaxyShow.vue'
+  import RadarMap from './part/RadarMap.vue'
+  import oneBarLine from './part/oneBarLine.vue'
+  import twoBarLine from "./part/twoBarLine.vue"
+  import threeLine from "./part/threeLine.vue"
 
   export default {
     components:{
-      ScreenAdapter,TopItem,TitleSlot,PieChart
+      ScreenAdapter,TopItem,TitleSlot,PieChart,GalaxyShow,RadarMap,oneBarLine,twoBarLine,threeLine
     }
   }
 </script>
@@ -77,10 +97,14 @@
     padding: 0;
   }
   .all{
-    width: 100%;
-    height: 100%;
-    background-color: #071018;
+    /* width: 100%; */
+    /* height: 100%; */
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    /* background-color: #071018; */
     /* padding: 40px; */
+    background: url("../assets/03社保缴费分析/背景.png") no-repeat 100% 100%;
   }
   .title{
     height: 60px;
@@ -92,7 +116,7 @@
     font-size: 24px;
     line-height: 60px;
     text-align: center;
-    background: linear-gradient(to top,#306EEF,#fff)
+    background: linear-gradient(to top,#306EEF,#0e192e)
   }
   /* 中间 */
   .center_item{
@@ -157,6 +181,10 @@
     background-size: 2px 16px, 16px 2px, 2px 16px, 16px 2px;
     background-color: rgba(36,56,128,0.21);
   }
+  .echarts_bg{
+    background: url("../assets/03社保缴费分析/bar_bottom.png") no-repeat 45% 82%;
+    background-size: 81%;
+  }
   .slot{
     /* display:flex;
     align-items:center;
@@ -178,5 +206,18 @@
     width: 100%;
     height: 420px;
     background: url('../assets/03社保缴费分析/底部.png') no-repeat center 30%; 
+  }
+  .tab{
+    display: flex;
+  }
+  .tab_item{
+    box-sizing:border-box;
+    height: 65px;
+    padding: 24px 10px 0;
+    font-size: 17px;
+    color: rgba(250,250,250,0.9);
+  }
+  .tab_item:first-child{
+    border-bottom: 5px solid #306EEF;
   }
 </style>

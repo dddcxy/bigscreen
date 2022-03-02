@@ -1,0 +1,287 @@
+<template>
+  <div style="width:100%;height: calc(100% - 40px);">
+    <div ref="threeLine" style="width:100%;height:260px"></div>
+  </div>
+</template>
+
+<script>
+import * as echarts from "echarts";
+export default {
+  data() {
+    return {
+      myCharts: null
+    };
+  },
+  mounted() {
+    this.initChart();
+  },
+  methods: {
+    initChart() {
+      let myCharts = echarts.init(this.$refs.threeLine);
+      let options = this.initOptions();
+      myCharts.setOption(options);
+    },
+    initOptions() {
+      return {
+        legend: {
+          top: 10,
+          // itemWidth: 8,
+          // itemHeight: 8,
+          // icon: "circle",
+          // left: "center",
+          // padding: 0,
+          textStyle: {
+            color: "#f9f9f9",
+            borderColor: "#fff"
+          },
+          // data: [
+          //   { name: "城职养老", icon: "line" },
+          //   { name: "失业保险", icon: "line" },
+          //   { name: "机关养老", icon: "line" },
+          // ]
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            lineStyle: {
+              color: {
+                type: "linear",
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [
+                  {
+                    offset: 0,
+                    color: "rgba(0, 255, 233,0)"
+                  },
+                  {
+                    offset: 0.5,
+                    color: "rgba(255, 255, 255,1)"
+                  },
+                  {
+                    offset: 1,
+                    color: "rgba(0, 255, 233,0)"
+                  }
+                ],
+                global: false
+              }
+            }
+          }
+        },
+        grid: {
+          left: 20,
+          right: 20,
+          bottom: 0,
+          top: 40,
+          containLabel: true
+        },
+        xAxis: {
+          nameTextStyle: {
+            color: "#c0c3cd",
+            padding: [0, 0, -10, 0],
+            fontSize: 14
+          },
+          axisLabel: {
+            color: "#c0c3cd",
+            fontSize: 14,
+            interval: 0
+          },
+          axisTick: {
+            show: false,
+            lineStyle: {
+              color: "#384267",
+              width: 1
+            }
+          },
+          splitLine: {
+            show: false
+          },
+          axisLine: {
+            lineStyle: {
+              color: "#335971"
+            },
+            show: true
+          },
+          data: ["1月", "2月", "3月", "4月", "5月", "6月"],
+          type: "category",
+          boundaryGap: false,
+        },
+        yAxis: [
+          {
+            type: "value",
+            nameTextStyle: {
+              color: "#c0c3cd",
+              padding: [0, 0, 0, 0],
+              fontSize: 14
+            },
+            axisLabel: {
+              color: "#c0c3cd",
+              fontSize: 14
+            },
+            axisTick: {
+              lineStyle: {
+                color: "#668092",
+                width: 1
+              },
+              show: true
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: "#335971"
+                // "type": "dashed"
+              }
+            },
+            axisLine: {
+              lineStyle: {
+                color: "#668092",
+                width: 1
+                // "type": "dashed"
+              },
+              show: true
+            },
+            name: "金额(万元)"
+          },
+          {
+            type: "value",
+            min: 0,
+            max: 100,
+            nameTextStyle: {
+              color: "#c0c3cd",
+              padding: [0, 0, 0, 0],
+              fontSize: 14
+            },
+            axisLabel: {
+              color: "#c0c3cd",
+              fontSize: 14,
+              formatter: "{value}%"
+            },
+            axisTick: {
+              lineStyle: {
+                color: "#668092",
+                width: 1
+              },
+              show: true
+            },
+            splitLine: {
+              show: true,
+              lineStyle: {
+                color: "#335971"
+                // "type": "dashed"
+              }
+            },
+            axisLine: {
+              lineStyle: {
+                color: "#668092",
+                width: 1
+                // "type": "dashed"
+              },
+              show: true
+            },
+            name: "同比(%)"
+          }
+        ],
+        series: [
+          {
+            name: "城职养老",
+            type: "line",
+            lineStyle: {
+              normal: {
+                color: "#066ED1"
+              }
+            },
+            areaStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(
+                  0,
+                  0,
+                  0,
+                  1,
+                  [
+                    {
+                      offset: 0,
+                      color: "#066ED1"
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(43,193,145,0)"
+                    }
+                  ],
+                  false
+                )
+              }
+            },
+            data: [400, 700, 500, 400, 300, 500, 800] //data.values
+          },
+          {
+            name: "失业保险",
+            type: "line",
+            lineStyle: {
+              normal: {
+                color: "#30A89F"
+              }
+            },
+            areaStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(
+                  0,
+                  0,
+                  0,
+                  1,
+                  [
+                    {
+                      offset: 0,
+                      color: "#30A89F"
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(81,150,164,0)"
+                    }
+                  ],
+                  false
+                )
+              }
+            },
+            data: [300, 500, 400, 200, 100, 700, 600] //data.values
+          },
+          {
+            name: "机关养老",
+            type: "line",
+            lineStyle: {
+              normal: {
+                color: "#B83B55"
+              }
+            },
+            areaStyle: {
+              normal: {
+                color: new echarts.graphic.LinearGradient(
+                  0,
+                  0,
+                  0,
+                  1,
+                  [
+                    {
+                      offset: 0,
+                      color: "#B83B55"
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(81,150,164,0)"
+                    }
+                  ],
+                  false
+                )
+              }
+            },
+            data: [100, 200, 300, 600, 200, 300, 100] //data.values
+          }
+        ]
+      };
+    }
+  }
+};
+</script>
+
+<style scoped>
+</style>
