@@ -1,19 +1,46 @@
 <template>
-  <div style="width:100%;height: calc(100% - 40px);">
-    <div ref="threeLine" style="width:100%;height:260px"></div>
-  </div>
+  <div ref="threeLine" style="width:100%;height: calc(100% - 40px);"></div>
 </template>
 
 <script>
 import * as echarts from "echarts";
 export default {
-  data() {
-    return {
-      myCharts: null
-    };
+  props:{
+    blueData:{
+      type: Array,
+      default: () => [400, 700, 500, 400, 300, 500, 800]
+    },
+    greenData:{
+      type: Array,
+      default: () => [300, 500, 400, 200, 100, 700, 600]
+    },
+    redData:{
+      type: Array,
+      default: () => [100, 200, 300, 600, 200, 300, 100]
+    },
+    xData: {
+      type: Array,
+      default: () => ["1月", "2月", "3月", "4月", "5月", "6月"]
+    },
+    yLeftUnit: {
+      type: String,
+      default: "金额(万元)"
+    },
+    yRightUnit: {
+      type: String,
+      default: "同比(%)"
+    },
+    lineNameArr:{
+      type: Array,
+      default: () => ["城职养老", "失业保险", "机关养老"]
+    }
   },
   mounted() {
     this.initChart();
+  },
+  beforeDestroy() {
+    let myCharts = echarts.init(this.$refs.threeLine);
+    myCharts.dispose();
   },
   methods: {
     initChart() {
@@ -25,20 +52,10 @@ export default {
       return {
         legend: {
           top: 10,
-          // itemWidth: 8,
-          // itemHeight: 8,
-          // icon: "circle",
-          // left: "center",
-          // padding: 0,
           textStyle: {
             color: "#f9f9f9",
             borderColor: "#fff"
-          },
-          // data: [
-          //   { name: "城职养老", icon: "line" },
-          //   { name: "失业保险", icon: "line" },
-          //   { name: "机关养老", icon: "line" },
-          // ]
+          }
         },
         tooltip: {
           trigger: "axis",
@@ -72,7 +89,7 @@ export default {
         grid: {
           left: 20,
           right: 20,
-          bottom: 0,
+          bottom: 20,
           top: 40,
           containLabel: true
         },
@@ -103,9 +120,9 @@ export default {
             },
             show: true
           },
-          data: ["1月", "2月", "3月", "4月", "5月", "6月"],
+          data: this.xData,
           type: "category",
-          boundaryGap: false,
+          boundaryGap: false
         },
         yAxis: [
           {
@@ -141,7 +158,7 @@ export default {
               },
               show: true
             },
-            name: "金额(万元)"
+            name: this.yLeftUnit
           },
           {
             type: "value",
@@ -179,12 +196,12 @@ export default {
               },
               show: true
             },
-            name: "同比(%)"
+            name: this.yRightUnit
           }
         ],
         series: [
           {
-            name: "城职养老",
+            name: this.lineNameArr[0],
             type: "line",
             lineStyle: {
               normal: {
@@ -212,10 +229,10 @@ export default {
                 )
               }
             },
-            data: [400, 700, 500, 400, 300, 500, 800] //data.values
+            data: this.blueData
           },
           {
-            name: "失业保险",
+            name: this.lineNameArr[1],
             type: "line",
             lineStyle: {
               normal: {
@@ -243,10 +260,10 @@ export default {
                 )
               }
             },
-            data: [300, 500, 400, 200, 100, 700, 600] //data.values
+            data: this.greenData
           },
           {
-            name: "机关养老",
+            name: this.lineNameArr[2],
             type: "line",
             lineStyle: {
               normal: {
@@ -274,7 +291,7 @@ export default {
                 )
               }
             },
-            data: [100, 200, 300, 600, 200, 300, 100] //data.values
+            data: this.redData
           }
         ]
       };

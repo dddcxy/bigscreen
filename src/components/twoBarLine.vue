@@ -1,16 +1,47 @@
 <template>
-  <div style="width:100%;height: calc(100% - 40px);">
-    <div ref="oneBarLine" style="width:100%;height:260px"></div>
-  </div>
+  <div ref="oneBarLine" style="width:100%;height: calc(100% - 40px);"></div>
 </template>
 
 <script>
 import * as echarts from "echarts";
 export default {
-  data() {
-    return {
-      myCharts: null
-    };
+  props:{
+    barData1:{
+      type:Array,
+      default:()=>[200, 85, 112, 275, 305, 415]
+    },
+    barData2:{
+      type:Array,
+      default:()=>[200, 85, 112, 275, 305, 415]
+    },
+    lineData1:{
+      type:Array,
+      default:()=>[281.55, 398.35, 214.02, 179.55, 289.57, 356.14]
+    },
+    lineData2:{
+      type:Array,
+      default:()=>[274.55, 156.35, 299.02, 199.55, 319.57, 256.14]
+    },
+    xData:{
+      type:Array,
+      default:()=>["1月", "2月", "3月", "4月", "5月", "6月"]
+    },
+    barName:{
+      type:Array,
+      default:()=>["补缴金额", "退缴金额"]
+    },
+    lineName:{
+      type:Array,
+      default:()=>["补缴同比", "退缴同比"]
+    },
+    yLeftUnit: {
+      type: String,
+      default: "金额(万元)"
+    },
+    yRightUnit: {
+      type: String,
+      default: "同比(%)"
+    },
   },
   mounted() {
     this.initChart();
@@ -60,8 +91,10 @@ export default {
             borderColor: "#fff"
           },
           data: [
-            { name: "征缴总额", icon: "stack" },
-            { name: "同比", icon: "line" }
+            { name: this.barName[0], icon: "stack" },
+            { name: this.lineName[0], icon: "line" },
+            { name: this.barName[1], icon: "stack" },
+            { name: this.lineName[1], icon: "line" },
           ]
         },
         color: ["#00D7E9", "rgba(0, 215, 233, 0.9)"],
@@ -69,7 +102,7 @@ export default {
           containLabel: true,
           left: 20,
           right: 20,
-          bottom: 0,
+          bottom: 20,
           top: 40
         },
         xAxis: {
@@ -99,7 +132,7 @@ export default {
             },
             show: true
           },
-          data: ["1月", "2月", "3月", "4月", "5月", "6月"],
+          data: this.xData,
           type: "category"
         },
         yAxis: [
@@ -136,7 +169,7 @@ export default {
               },
               show: true
             },
-            name: "金额(万元)"
+            name: this.yLeftUnit
           },
           {
             type: "value",
@@ -174,14 +207,14 @@ export default {
               },
               show: true
             },
-            name: "同比(%)"
+            name: this.yRightUnit
           }
         ],
         series: [
           {
-            data: [200, 85, 112, 275, 305, 415],
+            data: this.barData1,
             type: "bar",
-            name: "征缴总额",
+            name: this.barName[0],
             barMaxWidth: "auto",
             barWidth: 20,
             itemStyle: {
@@ -209,20 +242,20 @@ export default {
             type: "pictorialBar",
             barMaxWidth: "20",
             symbol: "diamond",
-            symbolOffset: [0, "50%"],
+            symbolOffset: [-13, "50%"],
             symbolSize: [20, 15],
             tooltip: {
               show: false
             }
           },
           {
-            data: [200, 85, 112, 275, 305, 415],
+            data: this.barData1,
             type: "pictorialBar",
             barMaxWidth: "20",
 
             symbolPosition: "end",
             symbol: "diamond",
-            symbolOffset: [0, "-50%"],
+            symbolOffset: [-13, "-50%"],
             symbolSize: [20, 12],
             zlevel: 2,
             tooltip: {
@@ -230,7 +263,7 @@ export default {
             }
           },
           {
-            name: "同比",
+            name: this.lineName[0],
             type: "line",
             // smooth: true, //是否平滑
             showAllSymbol: true,
@@ -260,7 +293,102 @@ export default {
             tooltip: {
               show: true
             },
-            data: [281.55, 398.35, 214.02, 179.55, 289.57, 356.14]
+            data: this.lineData1
+          },
+          {
+            data: this.barData2,
+            type: "bar",
+            name: this.barName[1],
+            barMaxWidth: "auto",
+            barWidth: 20,
+            barGap: "30%",
+            itemStyle: {
+              color: {
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                type: "linear",
+                colorStops: [
+                  {
+                    offset: 0,
+                    color: "#FF6A6A"
+                  },
+                  {
+                    offset: 1,
+                    color: "#FFC1C1"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            data: [1, 1, 1, 1, 1, 1],
+            type: "pictorialBar",
+            barMaxWidth: "20",
+            symbol: "diamond",
+            symbolOffset: [13, "50%"],
+            symbolSize: [20, 15],
+            tooltip: {
+              show: false
+            },
+            itemStyle:{
+              normal:{
+                color:'#FFC1C1'
+              }
+            }
+          },
+          {
+            data: this.barData2,
+            type: "pictorialBar",
+            barMaxWidth: "20",
+
+            symbolPosition: "end",
+            symbol: "diamond",
+            symbolOffset: [13, "-50%"],
+            symbolSize: [20, 12],
+            zlevel: 2,
+            tooltip: {
+              show: false
+            },
+            itemStyle:{
+              normal:{
+                color:'#FFC1C1'
+              }
+            }
+          },
+          {
+            name: this.lineName[1],
+            type: "line",
+            // smooth: true, //是否平滑
+            showAllSymbol: true,
+            // symbol: 'image://./static/images/guang-circle.png',
+            symbol: "circle",
+            symbolSize: 10,
+            zlevel: 10,
+            lineStyle: {
+              normal: {
+                color: "#FF6A6A",
+                shadowColor: "rgba(0, 0, 0, .3)",
+                shadowBlur: 0,
+                shadowOffsetY: 5,
+                shadowOffsetX: 5
+              }
+            },
+
+            itemStyle: {
+              color: "#00ca95",
+              borderColor: "#fff",
+              borderWidth: 3,
+              shadowColor: "rgba(0, 0, 0, .3)",
+              shadowBlur: 0,
+              shadowOffsetY: 2,
+              shadowOffsetX: 2
+            },
+            tooltip: {
+              show: true
+            },
+            data: this.lineData2
           }
         ]
       };

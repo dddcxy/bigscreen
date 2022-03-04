@@ -1,21 +1,64 @@
 <template>
-  <div style="width:100%;height: calc(100% - 40px);">
-    <div ref="oneBarLine" style="width:100%;height:260px"></div>
-  </div>
+  <!-- 动态柱线图 -->
+  <div ref="oneBarLine" style="width:100%;height:calc(100% - 40px);"></div>
 </template>
 
 <script>
 import * as echarts from "echarts";
 export default {
-  data() {
-    return {
-      myCharts: null
-    };
+  props: {
+    barData: {
+      type: Array,
+      default: () => []
+    },
+    lineData: {
+      type: Array,
+      default: () => []
+    },
+    xData: {
+      type: Array,
+      default: () => []
+    },
+    yLeftUnit: {
+      type: String,
+      default: "金额(万元)"
+    },
+    yRightUnit: {
+      type: String,
+      default: "同比(%)"
+    },
+    barName: {
+      type: String,
+      default: "征缴总额"
+    },
+    lineName: {
+      type: String,
+      default: "同比"
+    }
   },
   mounted() {
     this.initChart();
   },
+  watch: {
+    // 判断数据变化，更新图表
+    barData(newV, oldV) {
+      // 获取已有echarts实例的DOM节点
+      let myCharts = echarts.getInstanceByDom(this.$refs.oneBarLine);
+      // 判断是否创建实例
+      if (myCharts == null) {
+        myChart = echarts.init(this.$refs.oneBarLine);
+      }
+      let options = this.initOptions();
+      myCharts.setOption(options);
+    }
+  },
+  //销毁示例
+  beforeDestroy() {
+    let myCharts = echarts.init(this.$refs.oneBarLine);
+    myCharts.dispose();
+  },
   methods: {
+    // 初始化示例
     initChart() {
       let myCharts = echarts.init(this.$refs.oneBarLine);
       let options = this.initOptions();
@@ -60,10 +103,8 @@ export default {
             borderColor: "#fff"
           },
           data: [
-            { name: "补缴金额", icon: "stack" },
-            { name: "补缴同比", icon: "line" },
-            { name: "退缴金额", icon: "stack" },
-            { name: "退缴同比", icon: "line" },
+            { name: this.barName, icon: "stack" },
+            { name: this.lineName, icon: "line" }
           ]
         },
         color: ["#00D7E9", "rgba(0, 215, 233, 0.9)"],
@@ -71,39 +112,41 @@ export default {
           containLabel: true,
           left: 20,
           right: 20,
-          bottom: 0,
+          bottom: 20,
           top: 40
         },
-        xAxis: {
-          nameTextStyle: {
-            color: "#c0c3cd",
-            padding: [0, 0, -10, 0],
-            fontSize: 14
-          },
-          axisLabel: {
-            color: "#c0c3cd",
-            fontSize: 14,
-            interval: 0
-          },
-          axisTick: {
-            show: false,
-            lineStyle: {
-              color: "#384267",
-              width: 1
-            }
-          },
-          splitLine: {
-            show: false
-          },
-          axisLine: {
-            lineStyle: {
-              color: "#335971"
+        xAxis: [
+          {
+            nameTextStyle: {
+              color: "#c0c3cd",
+              padding: [0, 0, -10, 0],
+              fontSize: 14
             },
-            show: true
-          },
-          data: ["1月", "2月", "3月", "4月", "5月", "6月"],
-          type: "category"
-        },
+            axisLabel: {
+              color: "#c0c3cd",
+              fontSize: 14,
+              interval: 0
+            },
+            axisTick: {
+              show: false,
+              lineStyle: {
+                color: "#384267",
+                width: 1
+              }
+            },
+            splitLine: {
+              show: false
+            },
+            axisLine: {
+              lineStyle: {
+                color: "#335971"
+              },
+              show: true
+            },
+            data: this.xData,
+            type: "category"
+          }
+        ],
         yAxis: [
           {
             type: "value",
@@ -138,7 +181,7 @@ export default {
               },
               show: true
             },
-            name: "金额(万元)"
+            name: this.yLeftUnit
           },
           {
             type: "value",
@@ -176,14 +219,14 @@ export default {
               },
               show: true
             },
-            name: "同比(%)"
+            name: this.yRightUnit
           }
         ],
         series: [
           {
-            data: [200, 85, 112, 275, 305, 415],
+            data: this.barData,
             type: "bar",
-            name: "补缴金额",
+            name: this.barName,
             barMaxWidth: "auto",
             barWidth: 20,
             itemStyle: {
@@ -211,20 +254,20 @@ export default {
             type: "pictorialBar",
             barMaxWidth: "20",
             symbol: "diamond",
-            symbolOffset: [-13, "50%"],
+            symbolOffset: [0, "50%"],
             symbolSize: [20, 15],
             tooltip: {
               show: false
             }
           },
           {
-            data: [200, 85, 112, 275, 305, 415],
+            data: this.barData,
             type: "pictorialBar",
             barMaxWidth: "20",
 
             symbolPosition: "end",
             symbol: "diamond",
-            symbolOffset: [-13, "-50%"],
+            symbolOffset: [0, "-50%"],
             symbolSize: [20, 12],
             zlevel: 2,
             tooltip: {
@@ -232,7 +275,7 @@ export default {
             }
           },
           {
-            name: "补缴同比",
+            name: this.lineName,
             type: "line",
             // smooth: true, //是否平滑
             showAllSymbol: true,
@@ -262,102 +305,7 @@ export default {
             tooltip: {
               show: true
             },
-            data: [281.55, 398.35, 214.02, 179.55, 289.57, 356.14]
-          },
-          {
-            data: [200, 85, 112, 275, 305, 415],
-            type: "bar",
-            name: "退缴金额",
-            barMaxWidth: "auto",
-            barWidth: 20,
-            barGap: "30%",
-            itemStyle: {
-              color: {
-                x: 0,
-                y: 0,
-                x2: 0,
-                y2: 1,
-                type: "linear",
-                colorStops: [
-                  {
-                    offset: 0,
-                    color: "#FF6A6A"
-                  },
-                  {
-                    offset: 1,
-                    color: "#FFC1C1"
-                  }
-                ]
-              }
-            }
-          },
-          {
-            data: [1, 1, 1, 1, 1, 1],
-            type: "pictorialBar",
-            barMaxWidth: "20",
-            symbol: "diamond",
-            symbolOffset: [13, "50%"],
-            symbolSize: [20, 15],
-            tooltip: {
-              show: false
-            },
-            itemStyle:{
-              normal:{
-                color:'#FFC1C1'
-              }
-            }
-          },
-          {
-            data: [200, 85, 112, 275, 305, 415],
-            type: "pictorialBar",
-            barMaxWidth: "20",
-
-            symbolPosition: "end",
-            symbol: "diamond",
-            symbolOffset: [13, "-50%"],
-            symbolSize: [20, 12],
-            zlevel: 2,
-            tooltip: {
-              show: false
-            },
-            itemStyle:{
-              normal:{
-                color:'#FFC1C1'
-              }
-            }
-          },
-          {
-            name: "退缴同比",
-            type: "line",
-            // smooth: true, //是否平滑
-            showAllSymbol: true,
-            // symbol: 'image://./static/images/guang-circle.png',
-            symbol: "circle",
-            symbolSize: 10,
-            zlevel: 10,
-            lineStyle: {
-              normal: {
-                color: "#FF6A6A",
-                shadowColor: "rgba(0, 0, 0, .3)",
-                shadowBlur: 0,
-                shadowOffsetY: 5,
-                shadowOffsetX: 5
-              }
-            },
-
-            itemStyle: {
-              color: "#00ca95",
-              borderColor: "#fff",
-              borderWidth: 3,
-              shadowColor: "rgba(0, 0, 0, .3)",
-              shadowBlur: 0,
-              shadowOffsetY: 2,
-              shadowOffsetX: 2
-            },
-            tooltip: {
-              show: true
-            },
-            data: [274.55, 156.35, 299.02, 199.55, 319.57, 256.14]
+            data: this.lineData
           }
         ]
       };

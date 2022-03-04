@@ -6,7 +6,7 @@
     <div class="title_msg">
       {{titleMsg}}
     </div>
-    <slot name="definedSlot"></slot>
+    <slot></slot>
   </div>
 </template>
 
