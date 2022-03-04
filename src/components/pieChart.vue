@@ -1,108 +1,115 @@
 <template>
-  <div ref="pie" style="width:100%;height:100%"></div>
+  <div ref="pie" style="width: 100%; height: 100%"></div>
 </template>
 
 <script>
-import * as echarts from "echarts";
 export default {
   props: {
     data: {
       type: Array,
-      default: () => [
-        
-      ]
+      default: () => []
     },
     tbName: {
       type: Array,
-      default: () => ["机关养老", "城居养老"]
+      default: () => ['机关养老', '城居养老']
     },
     tbValue: {
       type: Array,
       default: () => [453, 453]
     },
-    colorList:{
-      type:Array,
-      default:()=>["rgb(131,249,103)", "#FBFE27", "#FE5050", "#1DB7E5","#EE7942"]
+    colorList: {
+      type: Array,
+      default: () => [
+        'rgb(131,249,103)',
+        '#FBFE27',
+        '#FE5050',
+        '#1DB7E5',
+        '#EE7942'
+      ]
     }
   },
   data() {
-    return {};
+    return {}
   },
   mounted() {
-    this.initChart();
+    this.initChart()
   },
-  //销毁示例
+  /**
+   * @description 销毁图表实例，防止内存溢出
+   */
   beforeDestroy() {
-    let myCharts = echarts.init(this.$refs.pie);
-    myCharts.dispose();
+    let myCharts = this.$echarts.init(this.$refs.pie)
+    myCharts.dispose()
   },
   methods: {
-    //初始化示例
+    /**
+     * @description 初始化实例
+     */
     initChart() {
-      let myCharts = echarts.init(this.$refs.pie);
-      let options = this.initOptions();
-      myCharts.setOption(options);
+      let myCharts = this.$echarts.init(this.$refs.pie)
+      let options = this.initOptions()
+      myCharts.setOption(options)
     },
     initOptions() {
-      let data = this.data;
-      let tbName = this.tbName;
-      let tbValue = this.tbValue;
+      let data = this.data
+      let tbName = this.tbName
+      let tbValue = this.tbValue
       return {
         tooltip: {
-          trigger: "item",
-          formatter: "{b} : {c} ({d}%)"
+          trigger: 'item',
+          formatter: '{b} : {c} ({d}%)'
         },
         legend: {
           show: true,
-          icon: "circle",
-          bottom: "0%",
-          left: "center",
+          icon: 'circle',
+          bottom: '0%',
+          left: 'center',
           data: tbName,
-          orient: "horizontal",
+          orient: 'horizontal',
           textStyle: {
-            color: "#fff",
+            color: '#fff',
             rich: {
               m: {
                 fontSize: 13,
                 lineHeight: 10,
-                fontWeight: "bold",
-                color: "#fft",
+                fontWeight: 'bold',
+                color: '#fft',
                 padding: [65, 5, 30, 5]
               },
               title: {
                 fontSize: 18,
                 lineHeight: 10,
-                fontWeight: "bold",
-                color: "#fft",
+                fontWeight: 'bold',
+                color: '#fft',
                 padding: [90, 5, 30, 5]
               },
               value: {
                 fontSize: 14,
                 lineHeight: 18,
-                color: "#fff",
+                color: '#fff',
                 padding: [70, 5, 0, 5]
               },
               unit: {
                 fontSize: 10,
                 lineHeight: 18,
-                color: "#fff",
+                color: '#fff',
                 padding: [70, 5, 0, -5]
               }
             }
           },
-          formatter: function(p) {
-            let m = ["缴费最多险种", "退费最多险种"];
+          formatter: function (p) {
+            let m = ['缴费最多险种', '退费最多险种']
             for (let i = 0; i < 2; i++) {
               return (
-                "{m|" +
+                '{m|' +
                 m[i] +
-                "}\n{title|" +
+                '}\n{title|' +
                 p +
-                "}\n\n" +
-                "{value|" +
+                '}\n\n' +
+                '{value|' +
                 tbValue[i] +
-                "}{unit|万元   25%}"
-              );
+                '}{unit|万元   25%}'
+              )
             }
           }
         },
@@ -111,33 +118,33 @@ export default {
           min: 500,
           max: 600,
           inRange: {
-            //colorLightness: [0, 1]
+            // colorLightness: [0, 1]
           }
         },
         series: [
           {
-            name: "访问来源",
-            type: "pie",
-            radius: ["10%", "35%"],
-            center: ["50%", "40%"],
-            color: this.colorList, //'#FBFE27','rgb(11,228,96)','#FE5050'
-            data: data.sort(function(a, b) {
-              return a.value - b.value;
+            name: '访问来源',
+            type: 'pie',
+            radius: ['10%', '35%'],
+            center: ['50%', '40%'],
+            color: this.colorList, // '#FBFE27','rgb(11,228,96)','#FE5050'
+            data: data.sort(function (a, b) {
+              return a.value - b.value
             }),
-            roseType: "radius",
+            roseType: 'radius',
 
             label: {
               normal: {
-                formatter: ["{b|{b}}", "{c|{c}次}"].join("\n"),
+                formatter: ['{b|{b}}', '{c|{c}次}'].join('\n'),
                 rich: {
                   c: {
-                    color: "#Fff",
+                    color: '#Fff',
                     fontSize: 20,
-                    fontWeight: "bold",
+                    fontWeight: 'bold',
                     lineHeight: 5
                   },
                   b: {
-                    color: "#fff",
+                    color: '#fff',
                     fontSize: 15,
                     height: 40
                   }
@@ -147,7 +154,7 @@ export default {
             labelLine: {
               normal: {
                 lineStyle: {
-                  color: "rgb(98,137,169)"
+                  color: 'rgb(98,137,169)'
                 },
                 smooth: 0.2,
                 length: 10,
@@ -156,17 +163,16 @@ export default {
             },
             itemStyle: {
               normal: {
-                shadowColor: "rgba(0, 0, 0, 0.8)",
+                shadowColor: 'rgba(0, 0, 0, 0.8)',
                 shadowBlur: 50
               }
             }
           }
         ]
-      };
+      }
     }
   }
-};
+}
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

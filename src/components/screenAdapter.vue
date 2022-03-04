@@ -10,23 +10,23 @@ export default {
   props: {
     width: {
       type: String,
-      default: '1920',
+      default: '1920'
     },
     height: {
       type: String,
-      default: '1080',
-    },
+      default: '1080'
+    }
   },
-  data () {
+  data() {
     return {
       style: {
         width: this.width + 'px',
         height: this.height + 'px',
-        transform: 'scale(1) translate(-50%, -50%)',
-      },
+        transform: 'scale(1) translate(-50%, -50%)'
+      }
     }
   },
-  mounted () {
+  mounted() {
     this.setScale()
     window.onresize = this.Debounce(this.setScale, 1000)
   },
@@ -47,16 +47,17 @@ export default {
       }
     },
     // 获取放大缩小比例
-    getScale () {
+    getScale() {
       const w = window.innerWidth / this.width
       const h = window.innerHeight / this.height
       return w + ',' + h
     },
     // 设置比例
-    setScale () {
-      this.style.transform = 'scale(' + this.getScale() + ') translate(-50%, -50%)'
-    },
-  },
+    setScale() {
+      this.style.transform =
+        'scale(' + this.getScale() + ') translate(-50%, -50%)'
+    }
+  }
 }
 </script>
 <style scoped>

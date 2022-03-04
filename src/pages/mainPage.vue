@@ -3,7 +3,7 @@
   <screen-adapter>
     <div class="main">
       <div class="main_title">社保缴费分析</div>
-      <div style="padding-left:40px">
+      <div style="padding-left: 40px">
         <!-- 上部数据展示 -->
         <top-item></top-item>
         <!-- 中部数据展示 -->
@@ -13,7 +13,9 @@
             <title-slot :titleMsg="'各险种缴费分布'">
               <div class="slot">
                 <select class="slot_select">
-                  <option value="征缴总金额" selected="selected">征缴总金额</option>
+                  <option value="征缴总金额" selected="selected">
+                    征缴总金额
+                  </option>
                 </select>
               </div>
             </title-slot>
@@ -55,7 +57,12 @@
                 </select>
               </div>
             </title-slot>
-            <one-bar-line class="echarts_bg" :barData="barData" :lineData="lineData" :xData="xData"></one-bar-line>
+            <one-bar-line
+              class="echarts_bg"
+              :barData="barData"
+              :lineData="lineData"
+              :xData="xData"
+            ></one-bar-line>
           </div>
           <!-- 下部中 折线图 征缴趋势分析-->
           <div class="bottom_1">
@@ -83,23 +90,23 @@
 
 <script>
 // 屏幕适配
-import ScreenAdapter from "@/components/screenAdapter.vue";
+import ScreenAdapter from '@/components/screenAdapter.vue'
 // 顶部数据展示
-import TopItem from "@/components/topItem.vue";
+import TopItem from '@/components/topItem.vue'
 // 各板块标题组件
-import TitleSlot from "@/components/titleSlot.vue";
+import TitleSlot from '@/components/titleSlot.vue'
 // 饼图
-import PieChart from "@/components/pieChart.vue";
+import PieChart from '@/components/pieChart.vue'
 // 银河图
-import GalaxyShow from "@/components/galaxyShow.vue";
+import GalaxyShow from '@/components/galaxyShow.vue'
 // 雷达图
-import RadarMap from "@/components/radarMap.vue";
+import RadarMap from '@/components/radarMap.vue'
 // 动态柱线图
-import oneBarLine from "@/components/oneBarLine.vue";
+import oneBarLine from '@/components/oneBarLine.vue'
 // 静态柱线图
-import twoBarLine from "@/components/twoBarLine.vue";
+import twoBarLine from '@/components/twoBarLine.vue'
 // 折线图
-import threeLine from "@/components/threeLine.vue";
+import threeLine from '@/components/threeLine.vue'
 
 export default {
   components: {
@@ -118,56 +125,58 @@ export default {
       pieData: [
         {
           value: 453,
-          name: "城居养老"
+          name: '城居养老'
         },
         {
           value: 453,
-          name: "城职养老"
+          name: '城职养老'
         },
         {
           value: 453,
-          name: "工伤保险"
+          name: '工伤保险'
         },
         {
           value: 453,
-          name: "机关养老"
+          name: '机关养老'
         },
         {
           value: 453,
-          name: "失业保险"
+          name: '失业保险'
         }
       ],
-      barData:[200, 85, 112, 275, 305, 415],
-      xData:["1月", "2月", "3月", "4月", "5月", "6月"],
-      lineData:[274.55, 156.35, 299.02, 199.55, 319.57, 256.14],
-    };
+      barData: [200, 85, 112, 275, 305, 415],
+      xData: ['1月', '2月', '3月', '4月', '5月', '6月'],
+      lineData: [274.55, 156.35, 299.02, 199.55, 319.57, 256.14]
+    }
   },
   mounted() {
-    setInterval(()=>{
+    setInterval(() => {
       this.getBarData()
       this.getXData()
       this.getLineData()
-    },2100)
+    }, 2100)
   },
   methods: {
-    // 模拟动态数据
+    /**
+     * 模拟动态数据
+     */
     getBarData() {
-      let firstData = this.barData[0];
-      this.barData.shift();
-      this.barData.push(firstData);
+      let firstData = this.barData[0]
+      this.barData.shift()
+      this.barData.push(firstData)
     },
     getXData() {
-      let firstData = this.xData[0];
-      this.xData.shift();
-      this.xData.push(firstData);
+      let firstData = this.xData[0]
+      this.xData.shift()
+      this.xData.push(firstData)
     },
-    getLineData(){
-      let firstData = this.lineData[0];
-      this.lineData.shift();
-      this.lineData.push(firstData);
+    getLineData() {
+      let firstData = this.lineData[0]
+      this.lineData.shift()
+      this.lineData.push(firstData)
     }
   }
-};
+}
 </script>
 
 <style lang="less" scoped>
@@ -176,7 +185,7 @@ export default {
   width: 1920px;
   height: 1080px;
   overflow: hidden;
-  background: url("../assets/03社保缴费分析/背景.png") no-repeat 100% 100%;
+  background: url('../assets/03社保缴费分析/背景.png') no-repeat 100% 100%;
   .main_title {
     height: 60px;
     width: 100%;
@@ -252,7 +261,7 @@ export default {
   background-color: rgba(36, 56, 128, 0.21);
 }
 .echarts_bg {
-  background: url("../assets/03社保缴费分析/bar_bottom.png") no-repeat 45% 82%;
+  background: url('../assets/03社保缴费分析/bar_bottom.png') no-repeat 45% 82%;
   background-size: 81%;
 }
 .slot {
@@ -275,7 +284,7 @@ export default {
 .center_1_chart {
   width: 100%;
   height: 420px;
-  background: url("../assets/03社保缴费分析/底部.png") no-repeat center 30%;
+  background: url('../assets/03社保缴费分析/底部.png') no-repeat center 30%;
 }
 .tab {
   display: flex;

@@ -1,15 +1,17 @@
 <template>
   <div class="top_item">
-    <div class="each_item" v-for="(item,index) in dataMsg">
+    <div class="each_item" v-for="(item, index) in dataMsg">
       <div class="item_img">
         <img :src="imgs[index].img" alt />
       </div>
       <div class="item_data">
-        <div class="data_title">{{item.title}}</div>
-        <div class="data_num" style="font-size:12px;">
-          <span style="font-size: 24px;">{{item.num}}</span>
+        <div class="data_title">{{ item.title }}</div>
+        <div class="data_num" style="font-size: 12px">
+          <span style="font-size: 24px">{{ item.num }}</span>
           <span>万元</span>
-          <span :style="{color:(item.rate>=0?'red':'green')}">{{getRate(item.rate)}}</span>
+          <span :style="{ color: item.rate >= 0 ? 'red' : 'green' }">
+            {{ getRate(item.rate) }}
+          </span>
         </div>
       </div>
     </div>
@@ -22,74 +24,73 @@ export default {
     imgs: {
       type: Array,
       default: () => [
-        { img: require("@/assets/03社保缴费分析/01_70.png") },
-        { img: require("@/assets/03社保缴费分析/01_38.png") },
-        { img: require("@/assets/03社保缴费分析/01_7.png") },
-        { img: require("@/assets/03社保缴费分析/01_75.png") },
-        { img: require("@/assets/03社保缴费分析/01_44.png") },
-        { img: require("@/assets/03社保缴费分析/01_62.png") },
-        { img: require("@/assets/03社保缴费分析/01.png") }
+        { img: require('@/assets/03社保缴费分析/01_70.png') },
+        { img: require('@/assets/03社保缴费分析/01_38.png') },
+        { img: require('@/assets/03社保缴费分析/01_7.png') },
+        { img: require('@/assets/03社保缴费分析/01_75.png') },
+        { img: require('@/assets/03社保缴费分析/01_44.png') },
+        { img: require('@/assets/03社保缴费分析/01_62.png') },
+        { img: require('@/assets/03社保缴费分析/01.png') }
       ]
     },
-    dataMsg:{
+    dataMsg: {
       type: Array,
-      default:()=>[
+      default: () => [
         {
-          title: "个人缴费金额",
-          num: "34.56",
+          title: '个人缴费金额',
+          num: '34.56',
           rate: 2.5
         },
         {
-          title: "单位缴费金额",
-          num: "86.56",
+          title: '单位缴费金额',
+          num: '86.56',
           rate: -0.2
         },
         {
-          title: "征缴总金额",
-          num: "234.5",
+          title: '征缴总金额',
+          num: '234.5',
           rate: 2.5
         },
         {
-          title: "缴费总人数",
-          num: "34.56",
+          title: '缴费总人数',
+          num: '34.56',
           rate: 2.5
         },
         {
-          title: "征缴率",
-          num: "96%",
+          title: '征缴率',
+          num: '96%',
           rate: 2.5
         },
         {
-          title: "补缴金额",
-          num: "243.6",
+          title: '补缴金额',
+          num: '243.6',
           rate: 2.5
         },
         {
-          title: "退费金额",
-          num: "34.56",
+          title: '退费金额',
+          num: '34.56',
           rate: 2.5
         }
       ]
     }
   },
   data() {
-    return {
-    };
+    return {}
   },
   methods: {
     // 格式化数据
     getRate(rate) {
-      let str = "";
+      let str = ''
       if (rate >= 0) {
-        str = "+" + rate + "%";
-        return str;
+        str = '+' + rate + '%'
+        return str
       } else {
-        str = rate + "%";
-        return str;
+        str = rate + '%'
+        return str
       }
     }
   }
-};
+}
 </script>
 
 <style scoped>
