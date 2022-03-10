@@ -47,7 +47,6 @@ export default {
        * @description 获取已有echarts实例的DOM节点
        */
       let myCharts = this.$echarts.getInstanceByDom(this.$refs.oneBarLine)
-      console.log(myCharts, 'myChartsmyChartsmyChartsmyCharts')
       /**
        * @description 判断是否创建实例
        */
